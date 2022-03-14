@@ -18,17 +18,17 @@ export enum Winner {
 
 export interface Player {
   choices: Choice[]
-  progress: boolean[]
+  record: boolean[]
   score: number
   isWinner: boolean
 }
 
-export interface Game {
+export interface GameState {
   isPlaying: boolean
   currentRound: number
   totalRounds: number
-  possibleRounds: [1, 3, 5]
+  possibleRounds: number[]
   mode: Mode
   players: { p1: Player; p2: Player }
-  winner: Winner
+  winner?: Winner
 }
