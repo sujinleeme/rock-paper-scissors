@@ -1,9 +1,9 @@
 import { Choice } from '@types'
 
-import { getWinner } from '../'
+import { getRandomChoice, getWinner } from '../'
 
 describe(`# getWinner`, () => {
-  test.each`
+  it.each`
     p1                 | p2
     ${Choice.rock}     | ${Choice.rock}
     ${Choice.scissors} | ${Choice.rock}
@@ -14,4 +14,13 @@ describe(`# getWinner`, () => {
       expect(getWinner(p1, p2)).toMatchSnapshot()
     }
   )
+})
+
+describe(`# getRandomChoice`, () => {
+  it('should return number betweeon 0 to 2', () => {
+    const choice = getRandomChoice()
+    const max = 2
+    const isInRange = choice * (choice - max) <= 0
+    expect(isInRange).toBe(true)
+  })
 })
