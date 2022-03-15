@@ -20,7 +20,7 @@ const initialPlayer: Player = {
 const initialState: GameState = {
   isPlaying: false,
   currentRound: undefined,
-  totalRounds: 3,
+  totalRounds: undefined,
   possibleRounds: [1, 3, 5],
   mode: undefined,
   players: {

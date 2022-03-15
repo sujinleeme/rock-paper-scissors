@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
 
 import { Button } from '@chakra-ui/react'
 import { RadioCardGroup } from '@components/radio-card-group'
@@ -23,7 +24,10 @@ const modeOptions = [
 
 const Home: NextPage = () => {
   const { state, dispatch } = useGameContext()
-  const { possibleRounds, currentRound, mode } = state
+  const { possibleRounds, totalRounds, mode } = state
+
+  const isReadyToStart = !!totalRounds && !!mode
+
   const roundOptions = possibleRounds.map((round) => ({
     label: `${round} rounds`,
     value: round,
@@ -41,6 +45,11 @@ const Home: NextPage = () => {
       payload: Number(value),
     })
 
+  const handleStartButtonClick = () =>
+    isReadyToStart &&
+    dispatch({
+      type: GameAction.startGame,
+    })
   return (
     <div>
       <Head>
@@ -60,15 +69,18 @@ const Home: NextPage = () => {
         <RadioCardGroup
           options={roundOptions}
           onChange={handleRoundOptionClick}
-          value={currentRound}
+          value={totalRounds}
         />
-        <Button
-          colorScheme="teal"
-          disabled={!currentRound || !mode}
-          variant="solid"
-        >
-          Start
-        </Button>
+        <Link href="/play" passHref>
+          <Button
+            colorScheme="teal"
+            onClick={handleStartButtonClick}
+            disabled={!isReadyToStart}
+            variant="solid"
+          >
+            Start
+          </Button>
+        </Link>
       </main>
     </div>
   )

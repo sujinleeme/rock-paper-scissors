@@ -26,7 +26,7 @@ export interface Player {
 export interface GameState {
   isPlaying: boolean
   currentRound?: number
-  totalRounds: number
+  totalRounds?: number
   possibleRounds: number[]
   mode?: Mode
   players: { p1: Player; p2: Player }

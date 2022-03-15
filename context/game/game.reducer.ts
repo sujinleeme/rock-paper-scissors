@@ -19,38 +19,35 @@ export enum GameAction {
 }
 
 type GamePayload = {
-  [GameAction.startGame]: true
-  [GameAction.endGame]: false
+  [GameAction.startGame]: undefined
+  [GameAction.endGame]: undefined
   [GameAction.selectPlayMode]: Mode
   [GameAction.selectPlayRound]: number
 }
 
 export type GameActions = ActionMap<GamePayload>[keyof ActionMap<GamePayload>]
 
-export const gameReducer = (
-  state: GameState,
-  { type, payload }: GameActions
-) => {
-  switch (type) {
+export const gameReducer = (state: GameState, action: GameActions) => {
+  switch (action.type) {
     case GameAction.startGame:
       return {
         ...state,
-        isPlaying: payload,
+        isPlaying: true,
       }
     case GameAction.endGame:
       return {
         ...state,
-        isPlaying: payload,
+        isPlaying: false,
       }
     case GameAction.selectPlayMode:
       return {
         ...state,
-        mode: payload,
+        mode: action.payload,
       }
     case GameAction.selectPlayRound:
       return {
         ...state,
-        currentRound: payload,
+        totalRounds: action.payload,
       }
     default:
       return state
