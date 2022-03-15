@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app'
 
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, GlobalStyle, LightMode } from '@chakra-ui/react'
 
 import { GameProvider } from '../context'
 
@@ -10,9 +10,12 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <ChakraProvider>
-        <GameProvider>
-          <Component {...pageProps} />
-        </GameProvider>
+        <LightMode>
+          <GlobalStyle />
+          <GameProvider>
+            <Component {...pageProps} />
+          </GameProvider>
+        </LightMode>
       </ChakraProvider>
     </>
   )

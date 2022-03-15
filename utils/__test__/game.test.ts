@@ -17,10 +17,9 @@ describe(`# getWinner`, () => {
 })
 
 describe(`# getRandomChoice`, () => {
-  it('should return number betweeon 0 to 2', () => {
+  it('should return number betweeon 1 to 3', () => {
     const choice = getRandomChoice()
-    const max = 2
-    const isInRange = choice * (choice - max) <= 0
+    const isInRange = choice >= 1 && choice <= 3
     expect(isInRange).toBe(true)
   })
 })

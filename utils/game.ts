@@ -1,8 +1,14 @@
-import { Choice, Winner } from '../@types'
+import { Choice, Mode, Winner } from '../@types'
 
 type GetWinner = (p1: Choice, p2: Choice) => Winner
 
 type GetRandomChoice = () => number
+
+type GetFrequent = <T>(arr: T[]) => Map<T, number>
+
+type GetMostFrequent = <T>(map: Map<T, number>) => T
+
+type GetPlayerName = (mode: Mode) => { p1: string; p2: string }
 
 export const getWinner: GetWinner = (p1, p2) => {
   // The player2 wins if move is one grater than player1
@@ -14,7 +20,30 @@ export const getWinner: GetWinner = (p1, p2) => {
 }
 
 export const getRandomChoice: GetRandomChoice = () => {
-  const choices = Object.values(Choice).length
-  const max = choices - 1
-  return Math.floor(Math.random() * (max + 1))
+  const max = Object.keys(Choice).filter(
+    (i) => isNaN(Number(i)) === true
+  ).length
+  return Math.floor(Math.random() * max + 1)
+}
+
+export const getFrequent: GetFrequent = (arr) =>
+  arr.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map())
+
+export const getMostFrequent: GetMostFrequent = (map) => {
+  const max = [...map.entries()].reduce((a, e) => (e[1] > a[1] ? e : a))
+  return max[0]
+}
+
+export const getPlayerNames: GetPlayerName = (mode) => {
+  const name = {
+    [Mode.humanVsComputer]: {
+      p1: 'You',
+      p2: 'Computer 2',
+    },
+    [Mode.computers]: {
+      p1: 'Computer 1',
+      p2: 'Computer 2',
+    },
+  }
+  return name[mode]
 }

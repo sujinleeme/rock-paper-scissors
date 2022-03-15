@@ -6,28 +6,29 @@ import React, {
   useReducer,
 } from 'react'
 
-import { GameState, Player } from '@types'
+import { GameState } from '@types'
 
 import { GameActions, gameReducer } from './game.reducer'
 
-const initialPlayer: Player = {
-  choices: [],
-  record: [],
-  score: 0,
-  isWinner: false,
-}
-
-const initialState: GameState = {
-  isPlaying: false,
-  currentRound: undefined,
-  totalRounds: undefined,
+export const initialState: GameState = {
+  isPlaying: true,
+  currentRound: 0,
+  totalRounds: 1,
+  isFinished: false,
   possibleRounds: [1, 3, 5],
   mode: undefined,
+  record: [],
   players: {
-    p1: initialPlayer,
-    p2: initialPlayer,
+    p1: {
+      name: undefined,
+      choices: [],
+    },
+    p2: {
+      name: undefined,
+      choices: [],
+    },
   },
-  winner: undefined,
+  score: undefined,
 }
 
 export const GameContext = createContext<{

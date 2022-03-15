@@ -10,13 +10,12 @@ interface RadioCardGroupProps extends UseRadioGroupProps {
 
 export const RadioCardGroup: React.FC<RadioCardGroupProps> = ({
   options,
+  isDisabled,
   ...rest
 }) => {
   const { getRootProps, getRadioProps } = useRadioGroup({
     ...rest,
   })
-
-  console.log(rest)
 
   const group = getRootProps()
 
@@ -25,7 +24,11 @@ export const RadioCardGroup: React.FC<RadioCardGroupProps> = ({
       {options.map(({ label, value }) => {
         const radio = getRadioProps({ value })
         return (
-          <RadioCard key={`${label}-${value}`} {...radio}>
+          <RadioCard
+            isDisabled={isDisabled}
+            key={`${label}-${value}`}
+            {...radio}
+          >
             {label}
           </RadioCard>
         )

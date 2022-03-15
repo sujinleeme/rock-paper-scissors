@@ -5,9 +5,8 @@ export enum Choice {
 }
 
 export enum Mode {
-  humans = 1,
-  humanVsComputer = 2,
-  computers = 3,
+  humanVsComputer = 1,
+  computers = 2,
 }
 
 export enum Winner {
@@ -16,19 +15,29 @@ export enum Winner {
   draw = 'draw',
 }
 
-export interface Player {
-  choices: Choice[]
-  record: boolean[]
-  score: number
-  isWinner: boolean
+export enum Record {
+  win = 1,
+  lose = 2,
+  draw = 3,
 }
 
+export interface Player {
+  name?: string
+  choices: Choice[]
+}
+
+export type HashMap<T> = {
+  [key in keyof T]: number
+}
 export interface GameState {
   isPlaying: boolean
-  currentRound?: number
-  totalRounds?: number
+  currentRound: number
+  totalRounds: number
+  isFinished: boolean
   possibleRounds: number[]
   mode?: Mode
   players: { p1: Player; p2: Player }
+  record: Winner[]
+  score?: Map<Winner, number>
   winner?: Winner
 }

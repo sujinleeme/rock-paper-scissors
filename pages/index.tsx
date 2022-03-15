@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -8,10 +9,6 @@ import { GameAction, useGameContext } from '@context/game'
 import { Mode } from '@types'
 
 const modeOptions = [
-  {
-    label: 'Human vs Human',
-    value: Mode.humans,
-  },
   {
     label: 'Human vs Computer',
     value: Mode.humanVsComputer,
@@ -29,9 +26,15 @@ const Home: NextPage = () => {
   const isReadyToStart = !!totalRounds && !!mode
 
   const roundOptions = possibleRounds.map((round) => ({
-    label: `${round} rounds`,
+    label: `${round} round`,
     value: round,
   }))
+
+  useEffect(() => {
+    dispatch({
+      type: GameAction.initGame,
+    })
+  }, [dispatch])
 
   const handleModeOptionClick = (value: string) =>
     dispatch({
