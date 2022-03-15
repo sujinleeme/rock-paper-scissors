@@ -6,7 +6,7 @@ import React, {
   useReducer,
 } from 'react'
 
-import { GameState, Mode, Player } from '@types'
+import { GameState, Player } from '@types'
 
 import { GameActions, gameReducer } from './game.reducer'
 
@@ -19,10 +19,10 @@ const initialPlayer: Player = {
 
 const initialState: GameState = {
   isPlaying: false,
-  currentRound: 0,
-  totalRounds: 2,
-  possibleRounds: [0, 2, 4],
-  mode: Mode.computers,
+  currentRound: undefined,
+  totalRounds: 3,
+  possibleRounds: [1, 3, 5],
+  mode: undefined,
   players: {
     p1: initialPlayer,
     p2: initialPlayer,
@@ -42,9 +42,7 @@ type AppProviderProps = {
   children: ReactNode
 }
 
-export function useGameContext() {
-  return useContext(GameContext)
-}
+export const useGameContext = () => useContext(GameContext)
 
 export const GameProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(gameReducer, initialState)

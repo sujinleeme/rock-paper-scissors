@@ -1,1 +1,2 @@
-export { GameProvider } from './game.context'
+export * from './game.context'
+export * from './game.reducer'

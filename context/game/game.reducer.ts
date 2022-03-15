@@ -11,16 +11,18 @@ type ActionMap<M> = {
       }
 }
 
-export enum Game {
-  start = 'START_GAME',
-  end = 'END_GAME',
-  selectMode = 'SELECT_PLAY_MODE',
+export enum GameAction {
+  startGame = 'START_GAME',
+  endGame = 'END_GAME',
+  selectPlayMode = 'SELECT_PLAY_MODE',
+  selectPlayRound = 'SELECT_PLAY_ROUND',
 }
 
 type GamePayload = {
-  [Game.start]: true
-  [Game.end]: false
-  [Game.selectMode]: Mode
+  [GameAction.startGame]: true
+  [GameAction.endGame]: false
+  [GameAction.selectPlayMode]: Mode
+  [GameAction.selectPlayRound]: number
 }
 
 export type GameActions = ActionMap<GamePayload>[keyof ActionMap<GamePayload>]
@@ -30,20 +32,25 @@ export const gameReducer = (
   { type, payload }: GameActions
 ) => {
   switch (type) {
-    case Game.start:
+    case GameAction.startGame:
       return {
         ...state,
         isPlaying: payload,
       }
-    case Game.end:
+    case GameAction.endGame:
       return {
         ...state,
         isPlaying: payload,
       }
-    case Game.selectMode:
+    case GameAction.selectPlayMode:
       return {
         ...state,
         mode: payload,
+      }
+    case GameAction.selectPlayRound:
+      return {
+        ...state,
+        currentRound: payload,
       }
     default:
       return state
