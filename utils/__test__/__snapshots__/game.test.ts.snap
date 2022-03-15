@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`# getWinner returns winner when p1 choice is 0 and p2 choice is 0 1`] = `"draw"`;
+exports[`# getWinner returns winner when p1 choice is 1 and p2 choice is 1 1`] = `"draw"`;
 
-exports[`# getWinner returns winner when p1 choice is 0 and p2 choice is 2 1`] = `"p1"`;
+exports[`# getWinner returns winner when p1 choice is 1 and p2 choice is 3 1`] = `"p1"`;
 
-exports[`# getWinner returns winner when p1 choice is 2 and p2 choice is 0 1`] = `"p2"`;
+exports[`# getWinner returns winner when p1 choice is 3 and p2 choice is 1 1`] = `"p2"`;

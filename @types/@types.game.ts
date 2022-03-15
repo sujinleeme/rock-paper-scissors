@@ -1,13 +1,13 @@
 export enum Choice {
-  rock = 0,
-  paper = 1,
-  scissors = 2,
+  rock = 1,
+  paper = 2,
+  scissors = 3,
 }
 
 export enum Mode {
-  solo = 'solo',
-  humanVsComputer = 'humanVsComputer',
-  computers = 'machines',
+  humans = 1,
+  humanVsComputer = 2,
+  computers = 3,
 }
 
 export enum Winner {
@@ -25,10 +25,10 @@ export interface Player {
 
 export interface GameState {
   isPlaying: boolean
-  currentRound: number
+  currentRound?: number
   totalRounds: number
   possibleRounds: number[]
-  mode: Mode
+  mode?: Mode
   players: { p1: Player; p2: Player }
   winner?: Winner
 }
