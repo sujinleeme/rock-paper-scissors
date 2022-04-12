@@ -23,7 +23,16 @@ export enum Record {
 
 export interface Player {
   name?: string
+  color: string
   choices: Choice[]
+  record: Winner[]
+}
+
+export interface FinalWinner {
+  isDraw: boolean
+  type: Winner
+  name?: string
+  color?: string
 }
 
 export type HashMap<T> = {
@@ -37,7 +46,14 @@ export interface GameState {
   possibleRounds: number[]
   mode?: Mode
   players: { p1: Player; p2: Player }
-  record: Winner[]
+  winners: Winner[]
   score?: Map<Winner, number>
-  winner?: Winner
+  winnerOfRound?: Winner
+  finalWinner?: FinalWinner
+}
+
+export enum Size {
+  'xs' = 0,
+  'sm' = 1,
+  'md' = 2,
 }

@@ -1,6 +1,6 @@
-import { getFrequent, getMostFrequent, getPlayerNames, getWinner } from 'utils'
+import { getFinalWinner, getFrequent, getPlayerNames, getWinner } from 'utils'
 
-import { Choice, GameState, Mode } from '@types'
+import { Choice, GameState, Mode, Winner } from '@types'
 
 import { initialState } from './game.context'
 
@@ -24,7 +24,6 @@ export enum GameAction {
   moveToNextRound = 'MOVE_TO_NEXT_ROUND',
   selectPlayerChoice = 'SELECT_PLAYER_CHOICE',
   setCurrentRoundScore = 'SET_CURRENT_ROUND_SCORE',
-  tryAgain = 'TRY_AGAIN',
 }
 
 type GamePayload = {
@@ -39,7 +38,6 @@ type GamePayload = {
     player: 'p1' | 'p2'
     choice: Choice
   }
-  [GameAction.tryAgain]: undefined
 }
 
 export type GameActions = ActionMap<GamePayload>[keyof ActionMap<GamePayload>]
@@ -52,11 +50,6 @@ export const gameReducer: GameReducer = (state, action) => {
   switch (action.type) {
     case GameAction.initGame:
       return initialState
-    case GameAction.startGame:
-      return {
-        ...state,
-        isPlaying: true,
-      }
     case GameAction.endGame:
       return {
         ...state,
@@ -96,20 +89,29 @@ export const gameReducer: GameReducer = (state, action) => {
       }
     case GameAction.setCurrentRoundScore:
       if (currentRound > totalRounds) return state
+      const roundIdx = currentRound - 1
       const { p1, p2 } = players
-      const p1Choice = p1.choices[currentRound - 1]
-      const p2Choice = p2.choices[currentRound - 1]
-      const currentRoundWinner = getWinner(p1Choice, p2Choice)
-      const record = [...state.record]
-      record[currentRound - 1] = currentRoundWinner
-      const nextScore = getFrequent(record)
-      const winner = getMostFrequent(nextScore)
+      const [p1Choice, p2Choice] = [p1.choices[roundIdx], p2.choices[roundIdx]]
+      const winnerOfRound = getWinner(p1Choice, p2Choice)
+      const winners = [...state.winners, winnerOfRound]
+      const score = getFrequent(winners)
+      const isFinished = currentRound === totalRounds
+      const finalWinnerType = getFinalWinner(score)
+      const { name, color } = {
+        ...players[finalWinnerType as keyof typeof players],
+      }
       return {
         ...state,
-        record,
-        winner,
-        score: nextScore,
-        isFinished: currentRound === totalRounds,
+        winners,
+        score,
+        winnerOfRound,
+        isFinished,
+        finalWinner: {
+          name,
+          color,
+          isDraw: finalWinnerType === Winner.draw,
+          type: finalWinnerType,
+        },
       }
     case GameAction.selectPlayRound:
       return {
@@ -120,13 +122,15 @@ export const gameReducer: GameReducer = (state, action) => {
       const nextRound = Math.min(totalRounds - 1, currentRound) + 1
       return {
         ...state,
+        winnerOfRound: undefined,
         currentRound: nextRound,
       }
-    case GameAction.tryAgain:
-      const nextState = {
+    case GameAction.startGame:
+      return {
         ...state,
+        isPlaying: true,
         isFinished: false,
-        record: [],
+        winners: [],
         players: {
           p1: {
             ...players.p1,
@@ -138,9 +142,9 @@ export const gameReducer: GameReducer = (state, action) => {
           },
         },
         mode: state.mode,
-        currentRound: 1,
+        currentRound: 0,
+        winnerOfRound: undefined,
       }
-      return nextState
     default:
       return state
   }
