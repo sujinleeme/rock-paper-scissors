@@ -1,0 +1,5 @@
+export * from './check-icon'
+export * from './paper-icon'
+export * from './question-icon'
+export * from './rock-icon'
+export * from './scissors-icon'
