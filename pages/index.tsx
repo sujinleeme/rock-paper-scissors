@@ -124,6 +124,7 @@ const Home: NextPage = () => {
               placeholder="Select play mode"
               selectedOptionColor="purple"
               options={modeOptions}
+              isSearchable={false}
             />
           </Box>
           <Box width="xs">
@@ -137,6 +138,7 @@ const Home: NextPage = () => {
               placeholder="Select rounds"
               selectedOptionColor="purple"
               options={roundOptions}
+              isSearchable={false}
             />
           </Box>
         </VStack>
