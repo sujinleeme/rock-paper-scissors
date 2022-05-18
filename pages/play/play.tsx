@@ -111,7 +111,7 @@ const Play: NextPage = () => {
           <PlayerCard
             player={{ ...p1, type: 'p1' }}
             isFinalWinner={isFinalWinner('p1')}
-            isDisabled={isOpenRoundResult}
+            isDisabled={mode === Mode.computers || isOpenRoundResult}
             isVisibleCard={isOpenRoundResult}
             selectedCard={p1Choice}
             onChangeCard={handleCardOnChange}
